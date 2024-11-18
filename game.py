@@ -35,3 +35,50 @@ def game_loop():
             draw_menu(screen, "Game Over! Press C-Continue or Q-Quit", RED)
             draw_scoreboard(screen, length_of_snake - 1, WHITE)
             pygame.display.update()
+# Thành viên Nguyễn Tuấn Kiệt - Xử lý kết thúc game
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        game_over = True
+                        game_close = False
+                    if event.key == pygame.K_c:
+                        game_loop()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_over = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    dx, dy = -SNAKE_BLOCK, 0
+                elif event.key == pygame.K_RIGHT:
+                    dx, dy = SNAKE_BLOCK, 0
+                elif event.key == pygame.K_UP:
+                    dx, dy = 0, -SNAKE_BLOCK
+                elif event.key == pygame.K_DOWN:
+                    dx, dy = 0, SNAKE_BLOCK
+
+        x, y = move(x, y, dx, dy)
+        if collide_wall(x, y, WIDTH, HEIGHT) or collide_self(snake_list):
+            game_close = True
+
+        screen.fill(BLACK)
+        draw_food(screen, foodx, foody, SNAKE_BLOCK)
+        draw_snake(screen, snake_list, SNAKE_BLOCK, GREEN)
+        draw_scoreboard(screen, length_of_snake - 1, WHITE)
+        pygame.display.update()
+
+        if eat_food(x, y, foodx, foody, SNAKE_BLOCK):
+            foodx = round(random.randrange(0, WIDTH - SNAKE_BLOCK) / SNAKE_BLOCK) * SNAKE_BLOCK
+            foody = round(random.randrange(0, HEIGHT - SNAKE_BLOCK) / SNAKE_BLOCK) * SNAKE_BLOCK
+            length_of_snake += 1
+
+        snake_head = [x, y]
+        snake_list.append(snake_head)
+        if len(snake_list) > length_of_snake:
+            del snake_list[0]
+        clock.tick(SNAKE_SPEED)
+
+    pygame.quit()
+    quit()
+
+game_loop()
