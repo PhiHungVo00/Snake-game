@@ -8,7 +8,7 @@ play_background_music()
 # Thiết lập kích thước màn hình và các biến game
 WIDTH, HEIGHT = 800, 600
 SNAKE_BLOCK = 20
-SNAKE_SPEED = 15
+SNAKE_SPEED = 12
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
@@ -48,14 +48,16 @@ def game_loop():
             if event.type == pygame.QUIT:
                 game_over = True
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+        # Ngăn quay đầu ngược lại
+                if event.key == pygame.K_LEFT and dx != SNAKE_BLOCK:
                     dx, dy = -SNAKE_BLOCK, 0
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT and dx != -SNAKE_BLOCK:
                     dx, dy = SNAKE_BLOCK, 0
-                elif event.key == pygame.K_UP:
+                elif event.key == pygame.K_UP and dy != SNAKE_BLOCK:
                     dx, dy = 0, -SNAKE_BLOCK
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN and dy != -SNAKE_BLOCK:
                     dx, dy = 0, SNAKE_BLOCK
+
 
         x, y = move(x, y, dx, dy)
         if collide_wall(x, y, WIDTH, HEIGHT) or (len(snake_list) > 1 and collide_self(snake_list)):
