@@ -1,5 +1,5 @@
 import pygame
-
+#UI- Nguyen Quoc Cuong
 def draw_snake(screen, snake_list, block_size, color):
     for block in snake_list:
         pygame.draw.rect(screen, color, [block[0], block[1], block_size, block_size])
