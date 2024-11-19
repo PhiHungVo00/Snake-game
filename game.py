@@ -2,9 +2,9 @@ import pygame  # Thư viện pygame để xử lý giao diện
 import random
 from ui import draw_snake, draw_food, draw_menu, draw_scoreboard
 from logic import move, collide_wall, collide_self, eat_food
-
+from music import play_background_music, play_eat_sound
 pygame.init()  # Khởi tạo pygame
-
+play_background_music()
 # Thiết lập kích thước màn hình và các biến game
 WIDTH, HEIGHT = 800, 600
 SNAKE_BLOCK = 20
@@ -58,7 +58,7 @@ def game_loop():
                     dx, dy = 0, SNAKE_BLOCK
 
         x, y = move(x, y, dx, dy)
-        if collide_wall(x, y, WIDTH, HEIGHT) or collide_self(snake_list):
+        if collide_wall(x, y, WIDTH, HEIGHT) or (len(snake_list) > 1 and collide_self(snake_list)):
             game_close = True
 
         screen.fill(BLACK)
@@ -71,6 +71,7 @@ def game_loop():
             foodx = round(random.randrange(0, WIDTH - SNAKE_BLOCK) / SNAKE_BLOCK) * SNAKE_BLOCK
             foody = round(random.randrange(0, HEIGHT - SNAKE_BLOCK) / SNAKE_BLOCK) * SNAKE_BLOCK
             length_of_snake += 1
+            play_eat_sound()
 
         snake_head = [x, y]
         snake_list.append(snake_head)
