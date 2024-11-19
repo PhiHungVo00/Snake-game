@@ -10,6 +10,7 @@ def draw_food(screen, foodx, foody, block_size):
 def draw_menu(screen, message, color):
     font = pygame.font.SysFont("comicsansms", 35)
     mesg = font.render(message, True, color)
+    screen.blit(mesg, [100, 100])
 
 def draw_scoreboard(screen, score, color):
     font = pygame.font.SysFont("comicsansms", 25)
