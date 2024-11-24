@@ -70,7 +70,6 @@ def main_menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     # Chạy game mới
-                    game_loop()  # Thêm dòng này để bắt đầu trò chơi sau khi chọn
                 elif event.key == pygame.K_2:
                     high_score()
                 elif event.key == pygame.K_3:
