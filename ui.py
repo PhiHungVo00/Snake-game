@@ -9,6 +9,7 @@ YELLOW = (255, 255, 0)
 BLACK = (0, 0, 0)
 RED = (255,0,0)
 
+SNAKE_BLOCK = 20  # Kích thước mỗi khối của rắn
 SNAKE_SPEED = 5
 SNAKE_COLOR = GREEN
 GAME_MODE = 'classic'
@@ -69,7 +70,7 @@ def main_menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     # Chạy game mới
-                    return True
+                    game_loop()  # Thêm dòng này để bắt đầu trò chơi sau khi chọn
                 elif event.key == pygame.K_2:
                     high_score()
                 elif event.key == pygame.K_3:
@@ -91,7 +92,8 @@ def high_score():
     draw_text("Press B to go back", font, WHITE, screen, WIDTH // 2, 500)
     pygame.display.update()
     
-    wait_for_key(pygame.K_b)
+    wait_for_key(pygame.K_b)  # Đợi người dùng nhấn phím B để quay lại
+
 
 
 def save_high_scores(new_score, filename="highscore.txt"):
@@ -133,7 +135,8 @@ def settings():
                 elif event.key == pygame.K_3:
                     choose_color()
                 elif event.key == pygame.K_4:
-                    return
+                    return  # Thoát khỏi menu settings để quay lại main menu
+
 
 def choose_level():
     global SNAKE_SPEED
@@ -225,6 +228,56 @@ def wait_for_key(key):
                 sys.exit()
             if event.type == pygame.KEYDOWN and event.key == key:
                 return
+
+def game_loop():
+    global SNAKE_SPEED, SNAKE_COLOR, GAME_MODE
+
+    # Thiết lập ban đầu cho vị trí và trạng thái của rắn
+    x, y = WIDTH // 2, HEIGHT // 2
+    dx, dy = SNAKE_SPEED, 0
+    snake_list = []
+    length_of_snake = 3
+
+    game_over = False
+
+    while not game_over:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                # Xử lý phím di chuyển
+                if event.key == pygame.K_LEFT:
+                    dx, dy = -SNAKE_SPEED, 0
+                elif event.key == pygame.K_RIGHT:
+                    dx, dy = SNAKE_SPEED, 0
+                elif event.key == pygame.K_UP:
+                    dx, dy = 0, -SNAKE_SPEED
+                elif event.key == pygame.K_DOWN:
+                    dx, dy = 0, SNAKE_SPEED
+
+        # Cập nhật vị trí của con rắn
+        x += dx
+        y += dy
+
+        # Kiểm tra nếu rắn va vào tường
+        if x < 0 or x >= WIDTH or y < 0 or y >= HEIGHT:
+            game_over = True
+
+        # Cập nhật danh sách rắn và vẽ nó
+        snake_head = [x, y]
+        snake_list.append(snake_head)
+        if len(snake_list) > length_of_snake:
+            del snake_list[0]
+
+        # Vẽ màn hình
+        screen.fill(BLACK)
+        draw_snake(screen, snake_list, SNAKE_BLOCK, SNAKE_COLOR)
+        pygame.display.update()
+        pygame.time.delay(100)
+
+    # Khi trò chơi kết thúc, quay trở lại menu chính
+    main_menu()
 
 if __name__ == "__main__":
     main_menu()
