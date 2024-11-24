@@ -9,7 +9,6 @@ YELLOW = (255, 255, 0)
 BLACK = (0, 0, 0)
 RED = (255,0,0)
 
-SNAKE_BLOCK = 20  # Kích thước mỗi khối của rắn
 SNAKE_SPEED = 5
 SNAKE_COLOR = GREEN
 GAME_MODE = 'classic'
@@ -70,6 +69,7 @@ def main_menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     # Chạy game mới
+                    return True
                 elif event.key == pygame.K_2:
                     high_score()
                 elif event.key == pygame.K_3:
@@ -91,8 +91,7 @@ def high_score():
     draw_text("Press B to go back", font, WHITE, screen, WIDTH // 2, 500)
     pygame.display.update()
     
-    wait_for_key(pygame.K_b)  # Đợi người dùng nhấn phím B để quay lại
-
+    wait_for_key(pygame.K_b)
 
 
 def save_high_scores(new_score, filename="highscore.txt"):
@@ -134,8 +133,7 @@ def settings():
                 elif event.key == pygame.K_3:
                     choose_color()
                 elif event.key == pygame.K_4:
-                    return  # Thoát khỏi menu settings để quay lại main menu
-
+                    return
 
 def choose_level():
     global SNAKE_SPEED
