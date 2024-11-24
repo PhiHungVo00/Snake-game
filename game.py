@@ -84,7 +84,7 @@ def game_loop():
 
         screen.fill(BLACK)
         draw_food(screen, foodx, foody, SNAKE_BLOCK)
-        draw_snake(screen, snake_list, SNAKE_BLOCK, GREEN)
+        draw_snake(screen, snake_list, SNAKE_BLOCK, SNAKE_COLOR)
         draw_scoreboard(screen, length_of_snake - 1, WHITE)
         pygame.display.update()
 
